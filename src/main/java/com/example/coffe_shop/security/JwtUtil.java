@@ -36,4 +36,15 @@ public class JwtUtil {
           return Jwts.parser().verifyWith((SecretKey) secretKey).build()
                     .parseSignedClaims(token).getBody().getSubject();
     }
+
+    public boolean validarToken(String token){
+        try{
+            Jwts.parser().verifyWith((SecretKey) secretKey).build().parseSignedClaims(token);
+
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
+    }
 }
