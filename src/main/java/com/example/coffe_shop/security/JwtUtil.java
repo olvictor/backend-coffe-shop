@@ -13,13 +13,13 @@ import java.util.Date;
 
 public class JwtUtil {
     @Value("${api.security.token.secret}")
-    private Key secretKey;
+    private static Key secretKey;
 
     private static long EXPIRATION_TIME = 86400000;
 
-    public String gerarToken(Usuario usuario){
+    public static String gerarToken(String email){
         String jwt = Jwts.builder()
-                .subject(String.valueOf(usuario.getEmail()))
+                .subject(email)
                 .signWith(secretKey)
                 .expiration(dataExpiracao())
                 .compact();
@@ -27,7 +27,7 @@ public class JwtUtil {
         return jwt;
     }
 
-    private Date dataExpiracao() {
+    private static Date dataExpiracao() {
         return Date.from(Instant.now().plus(24, ChronoUnit.HOURS));
     }
 
