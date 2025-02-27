@@ -32,12 +32,12 @@ public class JwtUtil {
     }
 
 
-    public String getSubject(String token){
+    public static String getSubject(String token){
           return Jwts.parser().verifyWith((SecretKey) secretKey).build()
                     .parseSignedClaims(token).getBody().getSubject();
     }
 
-    public boolean validarToken(String token){
+    public static boolean validarToken(String token){
         try{
             Jwts.parser().verifyWith((SecretKey) secretKey).build().parseSignedClaims(token);
 
