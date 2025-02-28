@@ -42,9 +42,11 @@ public class UsuarioService {
     public Optional<Usuario> ValidarUsuario (Usuario usuario){
         Optional<Usuario> user = usuarioRepository.findByEmail(usuario.getEmail());
 
-        boolean password = passwordEncoder.matches(usuario.getPassword(),user.get().getPassword());
+        Boolean password = passwordEncoder.matches(usuario.getPassword(),user.get().getPassword());
 
-        return user;
-
+        if(password){
+            return user;
+        }
+        return null;
     }
 }

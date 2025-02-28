@@ -29,15 +29,13 @@ public class UsuariosController {
     public ResponseEntity<?> logarUsuario(@RequestBody Usuario usuario){
         Optional<Usuario> usuarioValidado = usuarioService.ValidarUsuario(usuario);
 
-        System.out.println(usuarioValidado);
-
-        if(usuarioValidado.isPresent()){
+        if(usuarioValidado != null){
             String token = JwtUtil.gerarToken(usuarioValidado.get().getEmail());
 
             return ResponseEntity.ok().body(token);
         }
 
-        return ResponseEntity.status(401).body("Credenciais inválidas.");
+        return ResponseEntity.status(401).body("Credenciais inválidasss.");
 
     }
 }
