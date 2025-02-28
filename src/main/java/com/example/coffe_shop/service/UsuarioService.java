@@ -38,4 +38,13 @@ public class UsuarioService {
 
         return usuarioRepository.save(usuario);
     }
+
+    public Optional<Usuario> ValidarUsuario (Usuario usuario){
+        Optional<Usuario> user = usuarioRepository.findByEmail(usuario.getEmail());
+
+        boolean password = passwordEncoder.matches(usuario.getPassword(),user.get().getPassword());
+
+        return user;
+
+    }
 }

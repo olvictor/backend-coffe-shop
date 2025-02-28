@@ -25,17 +25,19 @@ public class UsuariosController {
         return ResponseEntity.ok(user);
     }
 
-//    @PostMapping("/login")
-//    public ResponseEntity<?> logarUsuario(@RequestBody Usuario usuario){
-//        Optional<Usuario> user = usuarioRepository.findByEmail(usuario.getEmail());
-//
-//        if(user.isPresent() && user.get().getPassword().equals(usuario.getPassword())){
-//            String token = JwtUtil.gerarToken(user.get().getEmail());
-//
-//            return ResponseEntity.ok().body(token);
-//        }
-//
-//        return ResponseEntity.status(401).body("Credenciais inválidas.");
-//
-//    }
+    @PostMapping("/login")
+    public ResponseEntity<?> logarUsuario(@RequestBody Usuario usuario){
+        Optional<Usuario> usuarioValidado = usuarioService.ValidarUsuario(usuario);
+
+        System.out.println(usuarioValidado);
+
+        if(usuarioValidado.isPresent()){
+            String token = JwtUtil.gerarToken(usuarioValidado.get().getEmail());
+
+            return ResponseEntity.ok().body(token);
+        }
+
+        return ResponseEntity.status(401).body("Credenciais inválidas.");
+
+    }
 }
