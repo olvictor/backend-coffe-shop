@@ -34,7 +34,7 @@ public class UsuarioService {
         System.out.println(usuarioCadastrado);
         String senhaCriptografada = passwordEncoder.encode(password);
 
-        Usuario usuario = new Usuario(email, password, nome);
+        Usuario usuario = new Usuario(email, senhaCriptografada, nome);
 
         return usuarioRepository.save(usuario);
     }
