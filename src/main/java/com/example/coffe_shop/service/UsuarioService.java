@@ -13,9 +13,16 @@ import java.util.Optional;
 public class UsuarioService {
 
     @Autowired
-    private UsuarioRepository usuarioRepository;
+    private final UsuarioRepository usuarioRepository;
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+
+    public UsuarioService (UsuarioRepository usuarioRepository){
+         this.usuarioRepository = usuarioRepository;
+    }
+
+
 
     public Usuario RegistrarUsuario (String email, String password, String nome){
 
@@ -24,9 +31,10 @@ public class UsuarioService {
         if(usuarioCadastrado.isPresent()){
             throw new IllegalArgumentException("Usuário com este e-mail já está cadastrado.");
         }
+        System.out.println(usuarioCadastrado);
         String senhaCriptografada = passwordEncoder.encode(password);
 
-        Usuario usuario = new Usuario(email, password,nome);
+        Usuario usuario = new Usuario(email, password, nome);
 
         return usuarioRepository.save(usuario);
     }

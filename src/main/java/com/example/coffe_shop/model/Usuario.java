@@ -19,10 +19,10 @@ public class Usuario {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
-    private String password;
-
     @Column(unique = true, nullable = false)
     private String email;
+
+    private String password;
 
     @Column(nullable = false)
     private String nome;
@@ -32,9 +32,9 @@ public class Usuario {
     private LocalDateTime updatedAt;
 
 
-    public Usuario(String password, String email, String nome) {
-        this.password = password;
+    public Usuario(String email, String password, String nome) {
         this.email = email;
+        this.password = password;
         this.nome = nome;
     }
 
