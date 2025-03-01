@@ -13,4 +13,9 @@ public class ProdutosController {
     public ResponseEntity<?> buscarProdutos(){
         return ResponseEntity.ok().body("aaaaaaaaaaaaaaa");
     }
+
+
+    @GetMapping("/teste")
+    public  ResponseEntity<?> teste(){
+        return ResponseEntity.ok().body("Testando");   }
 }

@@ -36,6 +36,8 @@ public class Usuario {
         this.email = email;
         this.password = password;
         this.nome = nome;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
     public  Usuario (){
