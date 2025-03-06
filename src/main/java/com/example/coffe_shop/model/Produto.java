@@ -1,9 +1,6 @@
 package com.example.coffe_shop.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
@@ -21,13 +18,21 @@ public class Produto {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
+    @Column(unique = true, nullable = false)
     private String nome;
 
+    @Column(nullable = false)
     private double preco;
 
+    @Column(nullable = false)
     private int quantidade;
 
+    @Column(nullable = false)
     private String image_url;
+
+    @ManyToOne
+    @JoinColumn(name = "pedido_id", nullable = true) // Permite produtos sem pedidos
+    private Pedido pedido;
 
     public Produto(String nome, double preco, int quantidade, String image_url) {
         this.nome = nome;
