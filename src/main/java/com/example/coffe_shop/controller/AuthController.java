@@ -32,7 +32,7 @@ public class AuthController {
             return ResponseEntity.ok().body(token);
         }
 
-        return ResponseEntity.status(401).body("Credenciais inválidasss.");
+        return ResponseEntity.status(401).body("Credenciais inválidas.");
 
     }
 }

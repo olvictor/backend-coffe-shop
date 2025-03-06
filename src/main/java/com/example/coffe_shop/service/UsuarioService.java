@@ -2,6 +2,7 @@ package com.example.coffe_shop.service;
 
 import com.example.coffe_shop.model.Usuario;
 import com.example.coffe_shop.repository.UsuarioRepository;
+import com.example.coffe_shop.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,9 +18,12 @@ public class UsuarioService {
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    @Autowired
+    private final JwtUtil jwtUtil;
 
-    public UsuarioService (UsuarioRepository usuarioRepository){
+    public UsuarioService (UsuarioRepository usuarioRepository, JwtUtil jwtUtil){
          this.usuarioRepository = usuarioRepository;
+         this.jwtUtil = jwtUtil;
     }
 
 
@@ -49,4 +53,13 @@ public class UsuarioService {
         }
         return null;
     }
+
+    public  Optional<Usuario> buscarUsuarioByToken(String token){
+        String subject = jwtUtil.getSubject(token);
+
+        Optional<?> usuario = usuarioRepository.findByEmail(subject);
+
+        return (Optional<Usuario>) usuario;
+    }
+
 }
