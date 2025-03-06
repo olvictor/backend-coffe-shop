@@ -5,6 +5,8 @@ import com.example.coffe_shop.repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProdutoService {
     @Autowired
@@ -17,5 +19,9 @@ public class ProdutoService {
     public Produto cadastrarProduto(String nome, double preco, int qunatidade, String image_url){
         Produto novoProduto = new Produto(nome, preco,qunatidade,image_url);
         return produtoRepository.save(novoProduto);
+    }
+
+    public List<Produto> listarProduto (){
+       return produtoRepository.findAll();
     }
 }
