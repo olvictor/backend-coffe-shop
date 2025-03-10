@@ -30,10 +30,6 @@ public class Produto {
     @Column(nullable = false)
     private String image_url;
 
-    @ManyToOne
-    @JoinColumn(name = "pedido_id", nullable = true) // Permite produtos sem pedidos
-    private Pedido pedido;
-
     public Produto(String nome, double preco, int quantidade, String image_url) {
         this.nome = nome;
         this.preco = preco;
