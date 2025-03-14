@@ -42,7 +42,7 @@ public class Pedido {
     }
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
+    @JoinColumn(name = "id", nullable = false)
     private Usuario usuario;
 
     public Pedido(List<Produto> produtos, double valorTotal){

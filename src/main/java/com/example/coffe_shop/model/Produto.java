@@ -40,6 +40,17 @@ public class Produto {
     public Produto(){
 
     }
+
+    @Override
+    public String toString() {
+        return "Produto{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", preco=" + preco +
+                ", quantidade=" + quantidade +
+                ", image_url='" + image_url + '\'' +
+                '}';
+    }
 }
 
 
