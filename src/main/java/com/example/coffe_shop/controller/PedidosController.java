@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -23,5 +24,12 @@ public class PedidosController {
     public ResponseEntity<?> cadastrarPedido(@RequestBody PedidosRequestDTO data, @RequestHeader("Authorization") String header){
        Optional<Pedido> cadastrarPedido = (Optional<Pedido>) pedidoService.cadastrarPedido(data,header);
        return ResponseEntity.ok().body(cadastrarPedido);
+    }
+
+    @GetMapping()
+    public ResponseEntity<?>buscarPedidos(@RequestHeader("Authorization") String header){
+        Optional<?> pedidos = pedidoService.buscarPedido(header);
+        System.out.println(pedidos);
+        return ResponseEntity.ok().body(pedidos);
     }
 }
