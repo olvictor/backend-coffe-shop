@@ -42,14 +42,15 @@ public class Pedido {
     }
 
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    public Pedido(List<Produto> produtos, double valorTotal){
+    public Pedido(List<Produto> produtos, double valorTotal, Usuario usuario){
         this.produtos = produtos;
         this.valor_total = valorTotal;
         this.status_do_pedido = StatusDoPedido.PENDENTE;
         this.createdAt = LocalDateTime.now();
+        this.usuario = usuario;
     }
 
     @Override
