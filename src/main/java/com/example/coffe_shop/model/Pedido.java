@@ -41,10 +41,26 @@ public class Pedido {
         this.status_do_pedido = StatusDoPedido.PENDENTE;
     }
 
-    public Pedido(List<Produto> produtos,double valor_total){
+    @ManyToOne
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
+
+    public Pedido(List<Produto> produtos, double valorTotal){
         this.produtos = produtos;
-        this.valor_total = valor_total;
+        this.valor_total = valorTotal;
+        this.status_do_pedido = StatusDoPedido.PENDENTE;
         this.createdAt = LocalDateTime.now();
+    }
+
+    @Override
+    public String toString() {
+        return "Pedido{" +
+                "id=" + id +
+                ", produtos=" + produtos +
+                ", status_do_pedido=" + status_do_pedido +
+                ", valor_total=" + valor_total +
+                ", createdAt=" + createdAt +
+                '}';
     }
 
 }
