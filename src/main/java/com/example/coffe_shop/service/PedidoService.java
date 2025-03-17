@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PedidoService {
@@ -39,9 +40,13 @@ public class PedidoService {
         return null;
     }
 
-    public Optional<?> buscarPedido(String header){
+    public Optional<?> buscarPedidos(String header){
         String token = header.replace("Bearer ","");
         Optional<Usuario> usuario = usuarioService.buscarUsuarioByToken(token);
         return Optional.ofNullable(pedidoRepository.findByUsuarioId(usuario.get().getId()));
+    }
+
+    public Optional<?> buscarPedido(UUID id){
+        return Optional.of(pedidoRepository.findById(id));
     }
 }

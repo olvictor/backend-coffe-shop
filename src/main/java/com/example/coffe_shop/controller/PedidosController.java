@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/pedidos")
@@ -27,9 +28,12 @@ public class PedidosController {
     }
 
     @GetMapping()
-    public ResponseEntity<?>buscarPedidos(@RequestHeader("Authorization") String header){
-        Optional<?> pedidos = pedidoService.buscarPedido(header);
-        System.out.println(pedidos);
+    public ResponseEntity<?>buscarPedidos(@RequestHeader("Authorization") String header, @RequestParam(required = false) Optional<UUID> id){
+        if(id.isPresent()){
+            Optional<?> pedido = pedidoService.buscarPedido(id.get());
+            return ResponseEntity.ok().body(pedido);
+        }
+        Optional<?> pedidos = pedidoService.buscarPedidos(header);
         return ResponseEntity.ok().body(pedidos);
     }
 }
