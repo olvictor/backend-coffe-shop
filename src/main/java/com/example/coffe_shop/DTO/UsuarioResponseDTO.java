@@ -8,8 +8,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record UsuarioRequestDTO(UUID id,String nome, String email) {
-    public UsuarioRequestDTO(Optional<Usuario> optionalUsuario) {
+public record UsuarioResponseDTO(UUID id, String nome, String email) {
+    public UsuarioResponseDTO(Optional<Usuario> optionalUsuario) {
         this(
                 optionalUsuario.map(Usuario::getId).orElse(null),
                 optionalUsuario.map(Usuario::getNome).orElse(null),

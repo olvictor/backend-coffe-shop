@@ -1,5 +1,6 @@
 package com.example.coffe_shop.controller;
 
+import com.example.coffe_shop.DTO.ProdutosResponseDTO;
 import com.example.coffe_shop.model.Produto;
 import com.example.coffe_shop.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,6 @@ public class ProdutosController {
     @PostMapping()
     public  ResponseEntity<?>cadastrarProduto(@RequestBody Produto produto){
         Produto novoProduto = produtoService.cadastrarProduto(produto.getNome(),produto.getPreco(),produto.getQuantidade(), produto.getImage_url());
-        return ResponseEntity.ok().body(novoProduto);
+        return ResponseEntity.ok().body(new ProdutosResponseDTO(Optional.ofNullable(novoProduto)));
     }
 }

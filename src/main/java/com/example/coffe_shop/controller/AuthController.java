@@ -1,6 +1,6 @@
 package com.example.coffe_shop.controller;
 
-import com.example.coffe_shop.DTO.UsuarioRequestDTO;
+import com.example.coffe_shop.DTO.UsuarioResponseDTO;
 import com.example.coffe_shop.model.Usuario;
 import com.example.coffe_shop.security.JwtUtil;
 import com.example.coffe_shop.service.UsuarioService;
@@ -21,7 +21,7 @@ public class AuthController {
         Usuario user = usuarioService.RegistrarUsuario(usuario.getEmail(), usuario.getPassword(), usuario.getNome());
 
 
-        return ResponseEntity.ok().body(new UsuarioRequestDTO(Optional.ofNullable(user)));
+        return ResponseEntity.ok().body(new UsuarioResponseDTO(Optional.ofNullable(user)));
     }
 
     @PostMapping("/login")
