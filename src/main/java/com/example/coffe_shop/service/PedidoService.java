@@ -8,8 +8,10 @@ import com.example.coffe_shop.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class PedidoService {
@@ -25,15 +27,23 @@ public class PedidoService {
     public Optional<?> cadastrarPedido(PedidosRequestDTO data, String header){
         String token = header.replace("Bearer ","");
         Optional<Usuario> usuarioLogado = usuarioService.buscarUsuarioByToken(token);
+
+        List<Produto> produtos = data.produtos().stream()
+                .map(p -> produtoService.listarProdutoById(p.getId()))
+                .filter(opt -> opt.isPresent())
+                .map(opt -> opt.get())
+                .collect(Collectors.toList());
+
         Double valorTotal = 0.0;
 
         for (Produto produto : data.produtos()) {
             valorTotal += produto.getPreco();
         }
+
         Boolean validado = produtoService.produtoEmEstoque(data.produtos());
-        System.out.println(validado);
+
         if(validado){
-            Pedido novoPedido = new Pedido(data.produtos(), valorTotal, usuarioLogado.get());
+            Pedido novoPedido = new Pedido(produtos, valorTotal, usuarioLogado.get());
             return Optional.of(pedidoRepository.save(novoPedido));
         }
 

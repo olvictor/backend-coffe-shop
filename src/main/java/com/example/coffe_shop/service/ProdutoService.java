@@ -25,6 +25,8 @@ public class ProdutoService {
        return produtoRepository.findAll();
     }
 
+    public Optional<Produto> listarProdutoById(UUID uuid) { return produtoRepository.findById(uuid);}
+
     public Boolean produtoEmEstoque(List<Produto> data){
         Map<String, Integer> produtos = new HashMap<>();
 

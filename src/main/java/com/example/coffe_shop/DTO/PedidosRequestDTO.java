@@ -7,8 +7,5 @@ import java.util.List;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record PedidosRequestDTO(
-
-        @JsonProperty("produtos")
-        List<Produto> produtos) {
+public record PedidosRequestDTO(@JsonProperty("produtos") List<Produto> produtos) {
 }
