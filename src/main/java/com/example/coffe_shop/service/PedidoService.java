@@ -56,7 +56,7 @@ public class PedidoService {
         return Optional.ofNullable(pedidoRepository.findByUsuarioId(usuario.get().getId()));
     }
 
-    public Optional<?> buscarPedido(UUID id){
-        return Optional.of(pedidoRepository.findById(id));
+    public Optional<Pedido> buscarPedido(UUID id) {
+        return pedidoRepository.findById(id);
     }
 }

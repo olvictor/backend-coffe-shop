@@ -39,10 +39,15 @@ public class PedidosController {
     @GetMapping()
     public ResponseEntity<?>buscarPedidos(@RequestHeader("Authorization") String header, @RequestParam(required = false) Optional<UUID> id){
         if(id.isPresent()){
-            Optional<?> pedido = pedidoService.buscarPedido(id.get());
-            return ResponseEntity.ok().body(pedido);
+            Optional<Pedido> pedido = pedidoService.buscarPedido(id.get());
+            if (pedido.isPresent()) {
+                PedidosResponseDTO responseDTO = PedidosResponseDTO.from(pedido.get());
+                return ResponseEntity.ok().body(responseDTO);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pedido não encontrado");
+            }
         }
-        Optional<?> pedidos = pedidoService.buscarPedidos(header);
+        Optional<List<Pedido>> pedidos = (Optional<List<Pedido>>) pedidoService.buscarPedidos(header);
 
         return ResponseEntity.ok().body(pedidos);
     }
