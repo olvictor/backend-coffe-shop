@@ -36,7 +36,7 @@ public class PedidoService {
 
         Double valorTotal = 0.0;
 
-        for (Produto produto : data.produtos()) {
+        for (Produto produto : produtos) {
             valorTotal += produto.getPreco();
         }
 
