@@ -18,23 +18,28 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> cadastrarUsuario(@RequestBody Usuario usuario){
-        Usuario user = usuarioService.RegistrarUsuario(usuario.getEmail(), usuario.getPassword(), usuario.getNome());
-
-
-        return ResponseEntity.ok().body(new UsuarioResponseDTO(Optional.ofNullable(user)));
+        try{
+            Usuario user = usuarioService.RegistrarUsuario(usuario.getEmail(), usuario.getPassword(), usuario.getNome());
+            return ResponseEntity.ok().body(new UsuarioResponseDTO(Optional.ofNullable(user)));
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> logarUsuario(@RequestBody Usuario usuario){
-        Optional<Usuario> usuarioValidado = usuarioService.ValidarUsuario(usuario);
+        try{
+            Optional<Usuario> usuarioValidado = usuarioService.ValidarUsuario(usuario);
 
-        if(usuarioValidado != null){
-            String token = JwtUtil.gerarToken(usuarioValidado.get().getEmail());
+            if(usuarioValidado != null){
+                String token = JwtUtil.gerarToken(usuarioValidado.get().getEmail());
 
-            return ResponseEntity.ok().body(token);
+                return ResponseEntity.ok().body(token);
+            }
+
+            return ResponseEntity.status(401).body("Credenciais inválidas.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-
-        return ResponseEntity.status(401).body("Credenciais inválidas.");
-
     }
 }

@@ -25,30 +25,41 @@ public class PedidosController {
 
     @PostMapping()
     public ResponseEntity<?> cadastrarPedido(@RequestBody PedidosRequestDTO data, @RequestHeader("Authorization") String header){
-       Optional<Pedido> cadastrarPedido = (Optional<Pedido>) pedidoService.cadastrarPedido(data,header);
+        try{
+            Optional<Pedido> cadastrarPedido = (Optional<Pedido>) pedidoService.cadastrarPedido(data,header);
 
-        if (cadastrarPedido.isPresent()) {
-            Pedido pedido = cadastrarPedido.get();
-            PedidosResponseDTO responseDTO = PedidosResponseDTO.from(pedido);
-            return ResponseEntity.ok().body(responseDTO);
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao cadastrar pedido.");
+            if (cadastrarPedido.isPresent()) {
+                Pedido pedido = cadastrarPedido.get();
+                PedidosResponseDTO responseDTO = PedidosResponseDTO.from(pedido);
+                return ResponseEntity.ok().body(responseDTO);
+            }else {
+                return ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body("Não foi possível cadastrar o pedido.");
+            }
+        } catch (Exception e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Erro ao processar o pedido: " + e.getMessage());
         }
     }
 
     @GetMapping()
     public ResponseEntity<?>buscarPedidos(@RequestHeader("Authorization") String header, @RequestParam(required = false) Optional<UUID> id){
-        if(id.isPresent()){
-            Optional<Pedido> pedido = pedidoService.buscarPedido(id.get());
-            if (pedido.isPresent()) {
-                PedidosResponseDTO responseDTO = PedidosResponseDTO.from(pedido.get());
-                return ResponseEntity.ok().body(responseDTO);
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pedido não encontrado");
+        try{
+            if(id.isPresent()){
+                Optional<Pedido> pedido = pedidoService.buscarPedido(id.get());
+                if (pedido.isPresent()) {
+                    PedidosResponseDTO responseDTO = PedidosResponseDTO.from(pedido.get());
+                    return ResponseEntity.ok().body(responseDTO);
+                } else {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Pedido não encontrado");
+                }
             }
-        }
-        Optional<List<Pedido>> pedidos = (Optional<List<Pedido>>) pedidoService.buscarPedidos(header);
+            Optional<List<Pedido>> pedidos = (Optional<List<Pedido>>) pedidoService.buscarPedidos(header);
 
-        return ResponseEntity.ok().body(pedidos);
+            return ResponseEntity.ok().body(pedidos);
+        } catch (Exception e) {
+            return ResponseEntity.ok().body(e.getMessage());
+        }
     }
 }

@@ -19,13 +19,21 @@ public class ProdutosController {
 
     @GetMapping
     public ResponseEntity<?> buscarProdutos(){
-        List<Produto> produtos = produtoService.listarProduto();
-        return ResponseEntity.ok().body(produtos);
-    }
+        try{
+            List<Produto> produtos = produtoService.listarProduto();
+            return ResponseEntity.ok().body(produtos);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
 
+    }
     @PostMapping()
     public  ResponseEntity<?>cadastrarProduto(@RequestBody Produto produto){
-        Produto novoProduto = produtoService.cadastrarProduto(produto.getNome(),produto.getPreco(),produto.getQuantidade(), produto.getImage_url());
-        return ResponseEntity.ok().body(new ProdutosResponseDTO(Optional.ofNullable(novoProduto)));
+        try{
+            Produto novoProduto = produtoService.cadastrarProduto(produto.getNome(),produto.getPreco(),produto.getQuantidade(), produto.getImage_url());
+            return ResponseEntity.ok().body(new ProdutosResponseDTO(Optional.ofNullable(novoProduto)));
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body("Falha ao cadastrar produto.");
+        }
     }
 }
